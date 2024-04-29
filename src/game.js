@@ -6,11 +6,13 @@ const GameBoard = (function () {
             { row: "c", column: "1", id: "c1", mark: 0 }, { row: "c", column: "2", cell: "c2", mark: 0 }, { row: "c", column: "3", cell: "c3", mark: 0 }
         ];
 
-    const placeMark = (cell, mark) => {
-        let index = gameBoard.findIndex(gameBoard => gameBoard.id == cell);
+    const placeMark = (cell, mark, player) => {
+        let index = gameBoard.findIndex(gameBoard => gameBoard.cell == cell);
 
         if (mark === "X" || mark === "O") {
             gameBoard[index].mark = mark;
+
+            player.addMark();
         }
         else {
             console.error("Invalid mark (must be X or O)");
