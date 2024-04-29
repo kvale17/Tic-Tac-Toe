@@ -1,26 +1,44 @@
 const GameBoard = (() => {
     const gameBoard = [
-        { row: "a", column: "1", cell: "a1", mark: 0 }, { row: "a", column: "2", cell: "a2", mark: 0 }, { row: "a", column: "3", cell: "a3", mark: 0 },
-        { row: "b", column: "1", cell: "b1", mark: 0 }, { row: "b", column: "2", cell: "b2", mark: 0 }, { row: "b", column: "3", cell: "b3", mark: 0 },
-        { row: "c", column: "1", cell: "c1", mark: 0 }, { row: "c", column: "2", cell: "c2", mark: 0 }, { row: "c", column: "3", cell: "c3", mark: 0 }
+        [" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]
     ];
 
     const placeMark = (cell, mark, player) => {
-        let index = gameBoard.findIndex(cellObj => cellObj.cell === cell);
+        if (!GameBoard.gameBoard[cell.row] && !GameBoard.gameBoard[cell.col]) {
+            console.error("Invalid row and column");
+        }
+        else if (!GameBoard.gameBoard[cell.row]) {
+            console.error("Invalid row");
+        }
+        else if (!GameBoard.gameBoard[cell.col]) {
+            console.error("Invalid col");
+        }
 
-        if (index !== -1 && (mark === "X" || mark === "O")) {
-            gameBoard[index].mark = mark;
+        if ((mark === "X" || mark === "O")) {
+            GameBoard.gameBoard[cell.row][cell.col] = mark;
             player.addMark();
         } else {
-            console.error("Invalid mark or cell");
+            console.error("Mark");
         }
     }
 
-    const getEmptyCells = () => {
-        return gameBoard.filter(cell => cell.mark === 0);
+    const getEmptyCellIndices = () => {
+        const emptyCellIndices = [];
+        GameBoard.gameBoard.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell === " ") {
+                    emptyCellIndices.push({ row: rowIndex, col: colIndex });
+                }
+            });
+        });
+
+        return emptyCellIndices;
+
     }
 
-    return { gameBoard, placeMark, getEmptyCells };
+    return { gameBoard, placeMark, getEmptyCellIndices };
 })();
 
 
@@ -37,20 +55,28 @@ function createPlayer(name) {
 
 const GameFlow = (() => {
     const getUserInput = () => {
-        const input = prompt("What cell do you want to place a mark in ?");
+        const input = prompt("What cell do you want to place a mark in ? (row, col i.e \"2,1\")");
 
-        return input;
+        const inputArray = input.split(',');
+
+        const choice = createChoice((inputArray[0] - 1), (inputArray[1] - 1));
+
+        return choice;
     }
 
     const getComputerInput = () => {
-        const emptyCells = GameBoard.getEmptyCells();
+        const emptyCellIndexes = GameBoard.getEmptyCellIndices();
 
-        const computerChoiceIndex = Math.floor(Math.random() * emptyCells.length);
+        const randomIndex = Math.floor(Math.random() * emptyCellIndexes.length);
+        const randomCell = emptyCellIndexes[randomIndex];
 
-        const computerChoiceCell = emptyCells[computerChoiceIndex].cell;
-
-        return computerChoiceCell;
+        return randomCell;
     }
 
     return { getUserInput, getComputerInput };
 })();
+
+function createChoice(row, col) {
+    return { row, col }
+}
+
