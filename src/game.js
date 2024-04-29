@@ -60,12 +60,3 @@ function gameFlow() {
     return { getUserInput, getComputerInput, getEmptyCells };
 
 }
-
-
-
-
-
-
-
-
-
