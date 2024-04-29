@@ -41,18 +41,6 @@ const GameBoard = (() => {
     return { gameBoard, placeMark, getEmptyCellIndices };
 })();
 
-
-function createPlayer(name) {
-
-    let marksPlaced = 0;
-
-    let addMark = () => marksPlaced++;
-
-    let getMarks = () => { return marksPlaced };
-
-    return { name, addMark, getMarks };
-}
-
 const GameFlow = (() => {
     const getUserInput = () => {
         const input = prompt("What cell do you want to place a mark in ? (row, col i.e \"2,1\")");
@@ -76,7 +64,19 @@ const GameFlow = (() => {
     return { getUserInput, getComputerInput };
 })();
 
+
+function createPlayer(name) {
+
+    let marksPlaced = 0;
+
+    let addMark = () => marksPlaced++;
+
+    let getMarks = () => { return marksPlaced };
+
+    return { name, addMark, getMarks };
+}
+
+
 function createChoice(row, col) {
     return { row, col }
 }
-
