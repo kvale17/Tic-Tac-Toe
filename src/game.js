@@ -49,7 +49,15 @@ const GameFlow = (() => {
 
         const choice = createChoice((inputArray[0] - 1), (inputArray[1] - 1));
 
-        return choice;
+        if (GameBoard.gameBoard[choice.row][choice.col] !== " ") {
+            alert("That cell is already filled");
+
+            return GameFlow.getUserInput();
+        }
+        else {
+
+            return choice;
+        }
     }
 
     const getComputerInput = () => {
