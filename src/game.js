@@ -23,17 +23,13 @@ const GameBoard = (function () {
 
 function createPlayer(name) {
 
-    let score = 0;
+    let marksPlaced = 0;
 
-    let addPoint = () => {
-        score++;
-    }
+    let addMark = () => marksPlaced++;
 
-    let getPoints = () => {
-        return score;
-    }
+    let getMarks = () => { return marksPlaced };
 
-    return { name, addPoint, getPoints };
+    return { name, addMark, getMarks };
 }
 
 
