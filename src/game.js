@@ -19,7 +19,13 @@ const GameBoard = (function () {
         }
     }
 
-    return { gameBoard, placeMark };
+    const getEmptyCells = () => {
+        const result = GameBoard.gameBoard.filter(cell => cell.mark === 0);
+
+        return result;
+    }
+
+    return { gameBoard, placeMark, getEmptyCells };
 })();
 
 
@@ -35,12 +41,6 @@ function createPlayer(name) {
 }
 
 function gameFlow() {
-    const getEmptyCells = () => {
-        const result = GameBoard.gameBoard.filter(cell => cell.mark === 0);
-
-        return result;
-    }
-
     const getUserInput = () => {
         const input = prompt("What cell do you want to place a mark in ?");
 
@@ -48,7 +48,7 @@ function gameFlow() {
     }
 
     const getComputerInput = () => {
-        const emptyCells = gameFlow().getEmptyCells();
+        const emptyCells = GameBoard.getEmptyCells();
 
         const computerChoiceIndex = Math.floor(Math.random() * emptyCells.length);
 
@@ -57,6 +57,6 @@ function gameFlow() {
         return computerChoiceCell;
     }
 
-    return { getUserInput, getComputerInput, getEmptyCells };
+    return { getUserInput, getComputerInput};
 
 }
