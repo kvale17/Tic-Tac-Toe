@@ -1,9 +1,9 @@
 const GameBoard = (function () {
     const gameBoard =
         [
-            { row: "a", column: "1", id: "a1", mark: 0 }, { row: "a", column: "2", cell: "a2", mark: 0 }, { row: "a", column: "3", cell: "a3", mark: 0 },
-            { row: "b", column: "1", id: "b1", mark: 0 }, { row: "b", column: "2", cell: "b2", mark: 0 }, { row: "b", column: "3", cell: "b3", mark: 0 },
-            { row: "c", column: "1", id: "c1", mark: 0 }, { row: "c", column: "2", cell: "c2", mark: 0 }, { row: "c", column: "3", cell: "c3", mark: 0 }
+            { row: "a", column: "1", cell: "a1", mark: 0 }, { row: "a", column: "2", cell: "a2", mark: 0 }, { row: "a", column: "3", cell: "a3", mark: 0 },
+            { row: "b", column: "1", cell: "b1", mark: 0 }, { row: "b", column: "2", cell: "b2", mark: 0 }, { row: "b", column: "3", cell: "b3", mark: 0 },
+            { row: "c", column: "1", cell: "c1", mark: 0 }, { row: "c", column: "2", cell: "c2", mark: 0 }, { row: "c", column: "3", cell: "c3", mark: 0 }
         ];
 
     const placeMark = (cell, mark, player) => {
@@ -48,17 +48,21 @@ function gameFlow() {
     }
 
     const getComputerInput = () => {
-        const input = Math.floor(Math.random() * max);
+        const emptyCells = gameFlow().getEmptyCells();
+
+        const computerChoiceIndex = Math.floor(Math.random() * emptyCells.length);
+
+        const computerChoiceCell = emptyCells[computerChoiceIndex].cell;
+
+        return computerChoiceCell;
     }
 
     return { getUserInput, getComputerInput, getEmptyCells };
 
 }
 
-const marcus = createPlayer("Marcus");
-GameBoard.placeMark("c2", "X", marcus);
 
-console.log(gameFlow().getEmptyCells());
+
 
 
 
