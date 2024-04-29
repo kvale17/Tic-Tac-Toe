@@ -55,6 +55,11 @@ function gameFlow() {
 
 }
 
+const marcus = createPlayer("Marcus");
+GameBoard.placeMark("c2", "X", marcus);
+
+console.log(gameFlow().getEmptyCells());
+
 
 
 
