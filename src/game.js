@@ -34,6 +34,29 @@ function createPlayer(name) {
     return { name, addMark, getMarks };
 }
 
+function gameFlow() {
+    const getEmptyCells = () => {
+        const result = GameBoard.gameBoard.filter(cell => cell.mark === 0);
+
+        return result;
+    }
+
+    const getUserInput = () => {
+        const input = prompt("What cell do you want to place a mark in ?");
+
+        return input;
+    }
+
+    const getComputerInput = () => {
+        const input = Math.floor(Math.random() * max);
+    }
+
+    return { getUserInput, getComputerInput, getEmptyCells };
+
+}
+
+
+
 
 
 
