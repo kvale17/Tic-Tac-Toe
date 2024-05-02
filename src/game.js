@@ -67,13 +67,67 @@ const GameFlow = (() => {
         }
     }
 
+    const checkPlayerCloseToWin = () => {
+        const xIndices = [];
+
+        GameBoard.gameBoard.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell === "X") {
+                    xIndices.push({ row: rowIndex, col: colIndex });
+                }
+            });
+        });
+
+        for (let i = 0; i < xIndices.length; i++) {
+            for (let j = (i + 1); j < xIndices.length; j++) {
+                if (xIndices[j].row === xIndices[i].row) {
+
+                    const choice = { row: xIndices[i].row, col: (3 - xIndices[i].col - xIndices[j].col) };
+
+                    if (GameBoard.gameBoard[choice.row][choice.col] !== "O") {
+                        console.log("Found ideal choice must complete row");
+
+                        return choice;
+                    }
+                }
+
+                if (xIndices[j].col === xIndices[i].col) {
+
+                    const choice = { row: (3 - xIndices[i].row - xIndices[j].row), col: xIndices[i].col };
+
+                    if (GameBoard.gameBoard[choice.row][choice.col] !== "O") {
+                        console.log("Found ideal choice must complete column");
+
+                        return choice;
+                    }
+                }
+            }
+        }
+
+        console.log("Did not find ideal choice");
+
+        return 0;
+
+
+    }
+
     const getComputerInput = () => {
         const emptyCellIndexes = GameBoard.getEmptyCellIndices();
 
-        const randomIndex = Math.floor(Math.random() * emptyCellIndexes.length);
-        const randomCell = emptyCellIndexes[randomIndex];
+        const idealChoice = GameFlow.checkPlayerCloseToWin();
 
-        return randomCell;
+        if (idealChoice !== 0) {
+            return idealChoice;
+        }
+        else {
+
+            console.log("Getting random cell");
+
+            const randomIndex = Math.floor(Math.random() * emptyCellIndexes.length);
+            const randomCell = emptyCellIndexes[randomIndex];
+
+            return randomCell;
+        }
     }
 
     const isGameWon = () => {
@@ -116,7 +170,7 @@ const GameFlow = (() => {
             }
         }
 
-        //Check diagonals{
+        //Check diagonals
         current = GameBoard.gameBoard[1][1];
 
         if (current !== " ") {
@@ -136,7 +190,7 @@ const GameFlow = (() => {
         return false;
     }
 
-    return { getUserInput, getComputerInput, isGameWon };
+    return { getUserInput, getComputerInput, isGameWon, checkPlayerCloseToWin };
 })();
 
 
