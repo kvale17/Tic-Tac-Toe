@@ -22,7 +22,7 @@ const GameBoard = (() => {
             GameBoard.gameBoard[cell.row][cell.col] = mark;
             player.addMark();
 
-            marksPlaced++;
+            GameBoard.marksPlaced++;
         }
         else {
             console.error("Mark");
