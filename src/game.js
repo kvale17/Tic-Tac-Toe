@@ -152,4 +152,5 @@ function createChoice(row, col) {
 function drawBoard(board) {
     const divider = "---+---+---";
     console.log(board.map(row => row.map(cell => cell === 0 ? " " : cell).join(" | ")).join("\n" + divider + "\n"));
+    console.log("\n");
 }
