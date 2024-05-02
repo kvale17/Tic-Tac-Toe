@@ -1,11 +1,11 @@
 const GameBoard = (() => {
-    const gameBoard = [
+    let gameBoard = [
         [" ", " ", " "],
         [" ", " ", " "],
         [" ", " ", " "]
     ];
 
-    const marksPlaced = 0;
+    let marksPlaced = 0;
 
     const placeMark = (cell, mark, player) => {
         if (!GameBoard.gameBoard[cell.row] && !GameBoard.gameBoard[cell.col]) {
