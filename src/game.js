@@ -187,6 +187,10 @@ const GameFlow = (() => {
 
         }
 
+        if (GameBoard.marksPlaced === 9) {
+            return true;
+        }
+
         return false;
     }
 
