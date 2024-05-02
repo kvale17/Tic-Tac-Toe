@@ -82,49 +82,48 @@ const GameFlow = (() => {
         if (GameBoard.marksPlaced < 5) {
             return false;
         }
-        else {
 
-            //Check rows
-            for (let i = 0; i < 3; i++) {
-                current = GameBoard.gameBoard[i][0];
+        //Check rows
+        for (let i = 0; i < 3; i++) {
+            current = GameBoard.gameBoard[i][0];
 
-                if (current !== " ") {
-                    if ((GameBoard.gameBoard[i][1] === current) && (GameBoard.gameBoard[i][2])) {
+            if (current !== " ") {
+                if ((GameBoard.gameBoard[i][1] === current) && (GameBoard.gameBoard[i][2])) {
 
-                        GameFlow.winner = current;
-                        return true
-                    }
+                    GameFlow.winner = current;
+                    return true
                 }
             }
+        }
 
-            //Check columns
-            for (let i = 0; i < 3; i++) {
-                current = GameBoard.gameBoard[0][i];
-
-                if (current !== " ") {
-
-                    if ((GameBoard.gameBoard[1][i] == current) && (GameBoard.gameBoard[2][i] === current)) {
-
-                        GameFlow.winner = current;
-                        return true;
-                    }
-                }
-            }
-
-            //Check diagonals{
-            current = GameBoard.gameBoard[1][1];
+        //Check columns
+        for (let i = 0; i < 3; i++) {
+            current = GameBoard.gameBoard[0][i];
 
             if (current !== " ") {
 
-                if (((GameBoard.gameBoard[0][0] === current) && (GameBoard.gameBoard[2][2] === current)) ||
-                    ((GameBoard.gameBoard[0][2] === current) && (GameBoard.gameBoard[2][0] === current))) {
+                if ((GameBoard.gameBoard[1][i] == current) && (GameBoard.gameBoard[2][i] === current)) {
 
                     GameFlow.winner = current;
                     return true;
                 }
-
             }
         }
+
+        //Check diagonals{
+        current = GameBoard.gameBoard[1][1];
+
+        if (current !== " ") {
+
+            if (((GameBoard.gameBoard[0][0] === current) && (GameBoard.gameBoard[2][2] === current)) ||
+                ((GameBoard.gameBoard[0][2] === current) && (GameBoard.gameBoard[2][0] === current))) {
+
+                GameFlow.winner = current;
+                return true;
+            }
+
+        }
+
 
         return false;
     }
