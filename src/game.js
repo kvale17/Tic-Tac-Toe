@@ -88,9 +88,12 @@ const GameFlow = (() => {
             current = GameBoard.gameBoard[i][0];
 
             if (current !== " ") {
-                if ((GameBoard.gameBoard[i][1] === current) && (GameBoard.gameBoard[i][2])) {
+                if ((GameBoard.gameBoard[i][1] === current) && (GameBoard.gameBoard[i][2] === current)) {
 
                     GameFlow.winner = current;
+
+                    console.log("Row " + (i + 1) + " is filled");
+
                     return true
                 }
             }
@@ -105,6 +108,9 @@ const GameFlow = (() => {
                 if ((GameBoard.gameBoard[1][i] == current) && (GameBoard.gameBoard[2][i] === current)) {
 
                     GameFlow.winner = current;
+
+                    console.log("Column " + (i + 1) + " is filled");
+
                     return true;
                 }
             }
@@ -119,11 +125,13 @@ const GameFlow = (() => {
                 ((GameBoard.gameBoard[0][2] === current) && (GameBoard.gameBoard[2][0] === current))) {
 
                 GameFlow.winner = current;
+
+                console.log("Diagonal is filled");
+
                 return true;
             }
 
         }
-
 
         return false;
     }
