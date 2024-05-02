@@ -88,3 +88,8 @@ function createPlayer(name) {
 function createChoice(row, col) {
     return { row, col }
 }
+
+function drawBoard(board) {
+    const divider = "---+---+---";
+    console.log(board.map(row => row.map(cell => cell === 0 ? " " : cell).join(" | ")).join("\n" + divider + "\n"));
+}
