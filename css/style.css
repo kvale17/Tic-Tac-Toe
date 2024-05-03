@@ -82,6 +82,7 @@ body {
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 
   gap: 15px;
+  flex-shrink: 0;
 }
 
 button{
@@ -90,4 +91,9 @@ button{
   
   width: 200px;
   height: 60px;
+}
+
+.result-text{
+  font-size: 2em;
+  visibility: hidden; 
 }

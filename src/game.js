@@ -85,7 +85,14 @@ const Display = (() => {
         });
     }
 
-    return { updateCell, fillLine };
+    const addResultMessage = (message) => {
+        const messageElement = document.querySelector(".result-text");
+
+        messageElement.textContent = message;
+        messageElement.style.visibility = "visible";
+    }
+
+    return { updateCell, fillLine, addResultMessage };
 
 })();
 
@@ -343,10 +350,13 @@ const GameFlow = (() => {
 
         if (GameFlow.winner) {
             console.log("Game over: " + GameFlow.winner + " wins");
+
+            Display.addResultMessage(GameFlow.winner + " wins!");
         }
         else {
-
             console.log("Game over: the game tied");
+
+            Display.addResultMessage("Game ends in tie!");
         }
     }
 
