@@ -251,6 +251,8 @@ const GameFlow = (() => {
 
                     console.log("Row " + (i + 1) + " is filled");
 
+                    Display.fillLine("row", i);
+
                     return true
                 }
             }
@@ -268,6 +270,8 @@ const GameFlow = (() => {
 
                     console.log("Column " + (i + 1) + " is filled");
 
+                    Display.fillLine("col", i);
+
                     return true;
                 }
             }
@@ -282,6 +286,8 @@ const GameFlow = (() => {
 
                 console.log("Negative diagonal is filled");
 
+                Display.fillLine("negative-diagonal", null);
+
                 return true;
             }
 
@@ -289,6 +295,8 @@ const GameFlow = (() => {
                 GameFlow.winner = current;
 
                 console.log("Positive diagonal is filled");
+
+                Display.fillLine("positive-diagonal", null);
 
                 return true;
             }
