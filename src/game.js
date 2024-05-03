@@ -43,7 +43,16 @@ const GameBoard = (() => {
 
     }
 
-    return { gameBoard, placeMark, getEmptyCellIndices, marksPlaced };
+    const isCorner = (cell) => {
+        if ((cell.row === cell.col && cell.row !== 1) || (cell.row === 2 && cell.col === 0) || (cell.row === 0 && cell.col === 2)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    return { gameBoard, placeMark, getEmptyCellIndices, marksPlaced, isCorner };
 })();
 
 const GameFlow = (() => {
@@ -68,6 +77,9 @@ const GameFlow = (() => {
     }
 
     const checkPlayerCloseToWin = () => {
+
+        //Get all X cells
+
         const xIndices = [];
 
         GameBoard.gameBoard.forEach((row, rowIndex) => {
@@ -79,23 +91,68 @@ const GameFlow = (() => {
         });
 
         for (let i = 0; i < xIndices.length; i++) {
+
+            //Check diagonals for X if corner piece
+            if (GameBoard.isCorner(xIndices)) {
+
+                console.log(3 - xIndices[i].row);
+
+                const oppositeCorner = { row: (2 - xIndices[i].row), col: (2 - xIndices[i].col) };
+
+                //If center is X computer must choose opposite corner
+                if (GameBoard.gameBoard[1][1] === "X") {
+                    const choice = oppositeCorner;
+
+                    const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
+
+                    if (choiceValue !== "O" && choiceValue !== "X") {
+                        console.log("Found ideal choice must complete diagonal");
+
+                        return choice;
+                    }
+                }
+
+                //If center is not X check opposite corner and return center if it is X
+                else if (GameBoard.gameBoard[oppositeCorner.row][oppositeCorner.col] === "X") {
+                    const choice = { row: 1, col: 1 }
+
+                    const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
+
+                    if (choiceValue !== "O" && choiceValue !== "X") {
+                        console.log("Found ideal choice must complete diagonal");
+
+                        return choice;
+                    }
+                }
+            }
+
+
+            //If not corner then check rows and columns
+
             for (let j = (i + 1); j < xIndices.length; j++) {
+
+                //Check rows for X 
                 if (xIndices[j].row === xIndices[i].row) {
 
                     const choice = { row: xIndices[i].row, col: (3 - xIndices[i].col - xIndices[j].col) };
 
-                    if (GameBoard.gameBoard[choice.row][choice.col] !== "O") {
+                    const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
+
+                    if (choiceValue !== "O" && choiceValue !== "X") {
                         console.log("Found ideal choice must complete row");
 
                         return choice;
                     }
                 }
 
+                //Check columns for X
                 if (xIndices[j].col === xIndices[i].col) {
 
                     const choice = { row: (3 - xIndices[i].row - xIndices[j].row), col: xIndices[i].col };
 
-                    if (GameBoard.gameBoard[choice.row][choice.col] !== "O") {
+                    const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
+
+                    if (choiceValue !== "O" && choiceValue !== "X") {
                         console.log("Found ideal choice must complete column");
 
                         return choice;
@@ -103,6 +160,8 @@ const GameFlow = (() => {
                 }
             }
         }
+
+
 
         console.log("Did not find ideal choice");
 
