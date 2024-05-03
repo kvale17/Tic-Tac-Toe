@@ -55,6 +55,17 @@ const GameBoard = (() => {
     return { gameBoard, placeMark, getEmptyCellIndices, marksPlaced, isCorner };
 })();
 
+const Display = (() => {
+    const updateCell = (choice, mark) => {
+        const gridCell = document.querySelector(`.row${choice.row}.col${choice.col}`);
+
+        gridCell.textContent = mark;
+    }
+
+    return { updateCell };
+
+})();
+
 const GameFlow = (() => {
     let winner = null;
 
@@ -271,6 +282,8 @@ const GameFlow = (() => {
 
             drawBoard(GameBoard.gameBoard);
 
+            Display.updateCell(playerChoice, "X");
+
             gameOver = GameFlow.isGameWon();
 
             if (gameOver) {
@@ -281,6 +294,8 @@ const GameFlow = (() => {
             GameBoard.placeMark(computerChoice, "O", pc);
 
             drawBoard(GameBoard.gameBoard);
+
+            Display.updateCell(computerChoice, "O");
 
             gameOver = GameFlow.isGameWon();
         }
