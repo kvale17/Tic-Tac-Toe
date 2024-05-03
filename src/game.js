@@ -76,49 +76,47 @@ const GameFlow = (() => {
         }
     }
 
-    const checkPlayerCloseToWin = () => {
+    const checkPlayerCloseToWin = (playerMark) => {
 
-        //Get all X cells
+        //Get all playerMark cells
 
-        const xIndices = [];
+        const playerMarkIndices = [];
 
         GameBoard.gameBoard.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
-                if (cell === "X") {
-                    xIndices.push({ row: rowIndex, col: colIndex });
+                if (cell === playerMark) {
+                    playerMarkIndices.push({ row: rowIndex, col: colIndex });
                 }
             });
         });
 
-        for (let i = 0; i < xIndices.length; i++) {
+        for (let i = 0; i < playerMarkIndices.length; i++) {
 
-            //Check diagonals for X if corner piece
-            if (GameBoard.isCorner(xIndices)) {
+            //Check diagonals for playerMark if corner piece
+            if (GameBoard.isCorner(playerMarkIndices)) {
 
-                console.log(3 - xIndices[i].row);
+                const oppositeCorner = { row: (2 - playerMarkIndices[i].row), col: (2 - playerMarkIndices[i].col) };
 
-                const oppositeCorner = { row: (2 - xIndices[i].row), col: (2 - xIndices[i].col) };
-
-                //If center is X computer must choose opposite corner
-                if (GameBoard.gameBoard[1][1] === "X") {
+                //If center is playerMark computer must choose opposite corner
+                if (GameBoard.gameBoard[1][1] === playerMark) {
                     const choice = oppositeCorner;
 
                     const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
 
-                    if (choiceValue !== "O" && choiceValue !== "X") {
+                    if (choiceValue === " ") {
                         console.log("Found ideal choice must complete diagonal");
 
                         return choice;
                     }
                 }
 
-                //If center is not X check opposite corner and return center if it is X
-                else if (GameBoard.gameBoard[oppositeCorner.row][oppositeCorner.col] === "X") {
+                //If center is not playerMark check opposite corner and return center if it is playerMark
+                else if (GameBoard.gameBoard[oppositeCorner.row][oppositeCorner.col] === playerMark) {
                     const choice = { row: 1, col: 1 }
 
                     const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
 
-                    if (choiceValue !== "O" && choiceValue !== "X") {
+                    if (choiceValue === " ") {
                         console.log("Found ideal choice must complete diagonal");
 
                         return choice;
@@ -129,30 +127,30 @@ const GameFlow = (() => {
 
             //If not corner then check rows and columns
 
-            for (let j = (i + 1); j < xIndices.length; j++) {
+            for (let j = (i + 1); j < playerMarkIndices.length; j++) {
 
-                //Check rows for X 
-                if (xIndices[j].row === xIndices[i].row) {
+                //Check rows for playerMark
+                if (playerMarkIndices[j].row === playerMarkIndices[i].row) {
 
-                    const choice = { row: xIndices[i].row, col: (3 - xIndices[i].col - xIndices[j].col) };
+                    const choice = { row: playerMarkIndices[i].row, col: (3 - playerMarkIndices[i].col - playerMarkIndices[j].col) };
 
                     const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
 
-                    if (choiceValue !== "O" && choiceValue !== "X") {
+                    if (choiceValue === " ") {
                         console.log("Found ideal choice must complete row");
 
                         return choice;
                     }
                 }
 
-                //Check columns for X
-                if (xIndices[j].col === xIndices[i].col) {
+                //Check columns for playerMark
+                if (playerMarkIndices[j].col === playerMarkIndices[i].col) {
 
-                    const choice = { row: (3 - xIndices[i].row - xIndices[j].row), col: xIndices[i].col };
+                    const choice = { row: (3 - playerMarkIndices[i].row - playerMarkIndices[j].row), col: playerMarkIndices[i].col };
 
                     const choiceValue = GameBoard.gameBoard[choice.row][choice.col];
 
-                    if (choiceValue !== "O" && choiceValue !== "X") {
+                    if (choiceValue === " ") {
                         console.log("Found ideal choice must complete column");
 
                         return choice;
@@ -161,23 +159,24 @@ const GameFlow = (() => {
             }
         }
 
-
-
-        console.log("Did not find ideal choice");
-
         return 0;
-
-
     }
 
     const getComputerInput = () => {
         const emptyCellIndexes = GameBoard.getEmptyCellIndices();
 
-        const idealChoice = GameFlow.checkPlayerCloseToWin();
+        let idealChoice = GameFlow.checkPlayerCloseToWin("O");
 
         if (idealChoice !== 0) {
             return idealChoice;
         }
+
+        idealChoice = GameFlow.checkPlayerCloseToWin("X");
+
+        if (idealChoice !== 0) {
+            return idealChoice;
+        }
+
         else {
 
             console.log("Getting random cell");
