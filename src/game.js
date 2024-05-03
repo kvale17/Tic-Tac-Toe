@@ -69,6 +69,10 @@ const Display = (() => {
 const GameFlow = (() => {
     let winner = null;
 
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     const getUserInput = () => {
         const boardGrid = document.querySelector('.board-grid');
 
@@ -290,6 +294,8 @@ const GameFlow = (() => {
                 break;
             }
 
+            await sleep(500);
+
             let computerChoice = GameFlow.getComputerInput();
             GameBoard.placeMark(computerChoice, "O", pc);
 
@@ -309,7 +315,7 @@ const GameFlow = (() => {
         }
     }
 
-    return { getUserInput, getComputerInput, isGameWon, checkPlayerCloseToWin, playGame };
+    return { getUserInput, getComputerInput, isGameWon, checkPlayerCloseToWin, playGame, sleep };
 })();
 
 
