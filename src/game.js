@@ -59,21 +59,28 @@ const GameFlow = (() => {
     let winner = null;
 
     const getUserInput = () => {
-        const input = prompt("What cell do you want to place a mark in ? (row, col i.e \"2,1\")");
+        const boardGrid = document.querySelector('.board-grid');
 
-        const inputArray = input.split(',');
+        return new Promise(resolve => {
+            boardGrid.addEventListener('click', function getUserCellClick(event) {
+                if (event.target && event.target.matches('.cell') && event.target.textContent === "") {
+                    boardGrid.removeEventListener('click', getUserCellClick);
 
-        const choice = createChoice((inputArray[0] - 1), (inputArray[1] - 1));
+                    const index = Array.from(boardGrid.children).indexOf(event.target);
+                    const row = Math.floor(index / 3);
+                    const col = index % 3;
 
-        if (GameBoard.gameBoard[choice.row][choice.col] !== " ") {
-            alert("That cell is already filled");
+                    const choice = createChoice(row, col);
 
-            return GameFlow.getUserInput();
-        }
-        else {
-
-            return choice;
-        }
+                    if (GameBoard.gameBoard[row][col] === " ") {
+                        resolve(choice);
+                    }
+                    else {
+                        resolve(GameFlow.getUserInput());
+                    }
+                }
+            });
+        });
     }
 
     const checkPlayerCloseToWin = (playerMark) => {
@@ -252,14 +259,14 @@ const GameFlow = (() => {
         return false;
     }
 
-    const playGame = () => {
+    const playGame = async () => {
         const pc = createPlayer("pc");
         const player = createPlayer("player");
 
         let gameOver = false;
 
         while (!gameOver) {
-            let playerChoice = GameFlow.getUserInput();
+            let playerChoice = await GameFlow.getUserInput();
             GameBoard.placeMark(playerChoice, "X", player);
 
             drawBoard(GameBoard.gameBoard);
