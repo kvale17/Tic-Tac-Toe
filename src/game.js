@@ -356,7 +356,7 @@ const GameFlow = (() => {
         else {
             console.log("Game over: the game tied");
 
-            Display.addResultMessage("Game ends in tie!");
+            Display.addResultMessage("Game ends in a tie!");
         }
     }
 
