@@ -252,7 +252,42 @@ const GameFlow = (() => {
         return false;
     }
 
-    return { getUserInput, getComputerInput, isGameWon, checkPlayerCloseToWin };
+    const playGame = () => {
+        const pc = createPlayer("pc");
+        const player = createPlayer("player");
+
+        let gameOver = false;
+
+        while (!gameOver) {
+            let playerChoice = GameFlow.getUserInput();
+            GameBoard.placeMark(playerChoice, "X", player);
+
+            drawBoard(GameBoard.gameBoard);
+
+            gameOver = GameFlow.isGameWon();
+
+            if (gameOver) {
+                break;
+            }
+
+            let computerChoice = GameFlow.getComputerInput();
+            GameBoard.placeMark(computerChoice, "O", pc);
+
+            drawBoard(GameBoard.gameBoard);
+
+            gameOver = GameFlow.isGameWon();
+        }
+
+        if (GameFlow.winner) {
+            console.log("Game over: " + GameFlow.winner + " wins");
+        }
+        else {
+
+            console.log("Game over: the game tied");
+        }
+    }
+
+    return { getUserInput, getComputerInput, isGameWon, checkPlayerCloseToWin, playGame };
 })();
 
 
@@ -277,3 +312,5 @@ function drawBoard(board) {
     console.log(board.map(row => row.map(cell => cell === 0 ? " " : cell).join(" | ")).join("\n" + divider + "\n"));
     console.log("\n");
 }
+
+GameFlow.playGame();
