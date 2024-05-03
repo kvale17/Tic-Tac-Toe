@@ -62,7 +62,30 @@ const Display = (() => {
         gridCell.textContent = mark;
     }
 
-    return { updateCell };
+    const fillLine = (type, value) => {
+        let gridLine;
+
+        if (type === "row") {
+            gridLine = document.querySelectorAll(`.row${value}`);
+
+
+        }
+        else if (type === "col") {
+            gridLine = document.querySelectorAll(`.col${value}`);
+        }
+        else if (type === "positive-diagonal") {
+            gridLine = document.querySelectorAll(".positive-diagonal");
+        }
+        else if (type === "negative-diagonal") {
+            gridLine = document.querySelectorAll(".negative-diagonal");
+        }
+
+        gridLine.forEach((cell) => {
+            cell.style.backgroundColor = "aquamarine";
+        });
+    }
+
+    return { updateCell, fillLine };
 
 })();
 
@@ -254,17 +277,21 @@ const GameFlow = (() => {
         current = GameBoard.gameBoard[1][1];
 
         if (current !== " ") {
-
-            if (((GameBoard.gameBoard[0][0] === current) && (GameBoard.gameBoard[2][2] === current)) ||
-                ((GameBoard.gameBoard[0][2] === current) && (GameBoard.gameBoard[2][0] === current))) {
-
+            if ((GameBoard.gameBoard[0][0] === current) && (GameBoard.gameBoard[2][2] === current)) {
                 GameFlow.winner = current;
 
-                console.log("Diagonal is filled");
+                console.log("Negative diagonal is filled");
 
                 return true;
             }
 
+            if ((GameBoard.gameBoard[0][2] === current) && (GameBoard.gameBoard[2][0] === current)) {
+                GameFlow.winner = current;
+
+                console.log("Positive diagonal is filled");
+
+                return true;
+            }
         }
 
         if (GameBoard.marksPlaced === 9) {
